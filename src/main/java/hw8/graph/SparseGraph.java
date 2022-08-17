@@ -29,7 +29,7 @@ public class SparseGraph<V, E> implements Graph<V, E> {
     edges = new LinkedHashSet<>();
   }
 
-  // Converts the vertex back to a VertexNode to use internally
+  // Convert the vertex back to a VertexNode to use internally
   private VertexNode<V> convert(Vertex<V> v) throws PositionException {
     try {
       VertexNode<V> gv = (VertexNode<V>) v;
@@ -42,7 +42,7 @@ public class SparseGraph<V, E> implements Graph<V, E> {
     }
   }
 
-  // Converts and edge back to a EdgeNode to use internally
+  // Convert the edge back to a EdgeNode to use internally
   private EdgeNode<E> convert(Edge<E> e) throws PositionException {
     try {
       EdgeNode<E> ge = (EdgeNode<E>) e;
@@ -56,7 +56,6 @@ public class SparseGraph<V, E> implements Graph<V, E> {
   }
 
   private boolean isVertexValid(Vertex<V> vertex) {
-    // return (vertex != null && vertices.contains(convert(vertex)));
     if (vertex != null) {
       VertexNode<V> node = convert(vertex);
       return vertices.contains(node);
@@ -68,7 +67,6 @@ public class SparseGraph<V, E> implements Graph<V, E> {
     return (edge != null && edges.contains(convert(edge)));
   }
 
-  // O(1) because adding to a hash set is O(1)
   @Override
   public Vertex<V> insert(V v) throws InsertionException {
     if (v == null) {
@@ -85,7 +83,6 @@ public class SparseGraph<V, E> implements Graph<V, E> {
     return vertexNode;
   }
 
-  // O(1) because contains on a linked hash set is O(1) and adding to a linked list is O(1)
   @Override
   public Edge<E> insert(Vertex<V> from, Vertex<V> to, E e)
           throws PositionException, InsertionException {
@@ -112,7 +109,6 @@ public class SparseGraph<V, E> implements Graph<V, E> {
     return edgeNode;
   }
 
-  // O(d) because contains on a linked hash set is O(1) and removing from the linked list is O(d)
   @Override
   public V remove(Vertex<V> v) throws PositionException, RemovalException {
     if (!isVertexValid(v)) {
@@ -126,10 +122,11 @@ public class SparseGraph<V, E> implements Graph<V, E> {
     }
 
     vertices.remove(vertexNode);
+    vertexNode.owner = null;
     return vertexNode.get();
   }
 
-  // O(d) because contains on a linked hash set is O(1) and removing from the linked list is O(d)
+
   @Override
   public E remove(Edge<E> e) throws PositionException {
     EdgeNode<E> edgeNode = convert(e);
