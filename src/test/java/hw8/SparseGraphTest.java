@@ -5,8 +5,8 @@ import hw8.graph.SparseGraph;
 
 public class SparseGraphTest extends GraphTest {
 
-  @Override
-  protected Graph<String, String> createGraph() {
-    return new SparseGraph<>();
-  }
+    @Override
+    protected Graph<String, String> createGraph() {
+        return new SparseGraph<>();
+    }
 }

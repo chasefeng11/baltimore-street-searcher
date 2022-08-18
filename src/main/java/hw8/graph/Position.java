@@ -7,10 +7,10 @@ package hw8.graph;
  */
 public interface Position<T> {
 
-  /**
-   * Read element from this position.
-   *
-   * @return element at this position.
-   */
-  T get();
+    /**
+     * Read element from this position.
+     *
+     * @return element at this position.
+     */
+    T get();
 }

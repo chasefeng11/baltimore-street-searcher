@@ -9,19 +9,19 @@ package exceptions;
  * etc.</p>
  */
 public class InsertionException extends RuntimeException {
-  /**
-   * Constructs a new InsertionException.
-   */
-  public InsertionException() {
-  }
+    /**
+     * Constructs a new InsertionException.
+     */
+    public InsertionException() {
+    }
 
-  /**
-   * Constructs a new InsertionException with the specified detail message.
-   *
-   * @param message the detail message. The detail message is saved for
-   *                later retrieval by the getMessage() method.
-   */
-  public InsertionException(String message) {
-    super(message);
-  }
+    /**
+     * Constructs a new InsertionException with the specified detail message.
+     *
+     * @param message the detail message. The detail message is saved for
+     *                later retrieval by the getMessage() method.
+     */
+    public InsertionException(String message) {
+        super(message);
+    }
 }
