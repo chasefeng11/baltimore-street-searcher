@@ -66,7 +66,7 @@ public abstract class StreetSearcher {
         return null;
     }
 
-    // Print the path found.
+    // Print the path found and its distance
     protected void printPath(List<Edge<String>> path, double totalDistance) {
         if (path == null) {
             System.out.println("No path found");
