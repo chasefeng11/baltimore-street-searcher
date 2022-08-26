@@ -28,63 +28,47 @@ The first input tells the application which "map" to use. Four different maps ar
 
 
 The second and third inputs specify the GPS coordinates (longitude and latitude) of the desired starting and ending points.
-We have assumed start and end at intersections between different road segments and not at arbitrary GPS coordinates.
-Therefore, please input GPS coordinates appearing in the file you are using.
+We have assumed paths start and end at intersections between different road segments and not at arbitrary GPS coordinates.
+Therefore, please only input GPS coordinates which appear in the file you are using.
 
-T
-follow the instructions annotated with a TODO, before running the driver program.)
+To run the program, run the `main()` function in `Driver.java` file in the hw8 package. It will output the shortest route and its distance
+from your starting point to ending point. For instance, the following is the shortest path from Malone Hall to the
+Undergraduate Teaching Labs on the Johns Hopkins campus:
 
-Queries support the following operations, which can be combined in postfix notation
-* _[keyword]_: Fetches all URLs containing the specified keyword
-* _&&_: Fetches all URLs that match both the first query and the second query
-* _||_: Fetches all URLs that match either the first query or the second query
-* _?_: Prints the URLs corresponding to the most recent query result (based on a single keyword input or an operation result)
-* _!_: Quits the program
+    Config: campus.paths.txt from -76.620883,39.326204 to -76.620647,39.331158
+    Network Loaded: 414 roads, 65 endpoints
+    Total Distance: 599.0428
+    58.16 	Malone_Hall--Shriver_Hall
+    89.26 	Shaffer_Hall--Shriver_Hall
+    90.09 	Maryland_Hall--Shaffer_Hall
+    69.82 	Maryland_Hall--Krieger_Hall
+    94.58 	Remsen_Hall--Krieger_Hall
+    84.02 	Remsen_Hall--Dunning_Hall
+    113.11 	Undergraduate_Teaching_Labs--Dunning_Hall
 
-A program run might resemble the following:
-
-    === JHUgle Search Engine Running! ===
-    >>> Add your query below >>>
-    > ?
-    > baz
-    > red
-    > ?
-    https://en.wikipedia.org/wiki/Cat
-    http://www.foobar.com/baz
-    http://www.cars.com/
-    > &&
-    > ?
-    http://www.foobar.com/baz
-    > !
-    
-    Process finished with exit code 0
-
-## Data
-
-Four different "maps" are available, each encoded as a text file.
-* baltimore.streets.txt:
-* _&&_: Fetches all URLs that match both the first query and the second query
-* _||_: Fetches all URLs that match either the first query or the second query
-* _?_: Prints the URLs corresponding to the most recent query result (based on a single keyword input or an operation result)
-* _!_: Quits the program
-
-They are encoded as text files in `src/main/resources`, with  
-
-Users can control what data file is fed to JHUgle through Config.DATA_FILENAME.
-
-Several data files have been included in `src/main/resources`, ranging from short to very large.
 
 ## Implementation
 
-Different varieties of the Hash Table data structure make up the core logic of our search engine. With operations of **O(1)**,
-Hash Tables enable efficient lookups, which makes them ideal for searching over large amounts of data.
+Each time the program is executed, it builds a representation of the network of roads 
+as a [sparse graph](https://www.baeldung.com/cs/graphs-sparse-vs-dense). This was implemented in the `SparseGraph.java`
+file in the hw8.graph package, following the incidence list approach. The `SparseGraph` class has two inner classes,
+`VertexNode` and `EdgeNode`, as well as private overloaded convert methods that convert a Position to these inner classes. 
 
-All Hash Tables in JHUgle have been implemented with only arrays, and without using Java's built-in maps. There are
-implementations of a **Chaining Hash Map** and **Open Addressing Hash Map**, which provide different strategies for
-Collision Resolution.
+The following diagram represents the relationship between these classes: 
+<br></br>
+
+<center> <img src="img/SparseGraph.png" width="70%"></center>
+
+After this, the program uses [Dijikstra's Algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) to find the
+shortest path from the starting point to the ending point. It was implemented in the `DijkstraStreetSearcher.java` file 
+in the hw8.spp package.
 
 ## Testing and Profiling
 
-Tests have been written in JUnit, and can be found can be found `src/test/java/hw7`. In particular, they verify the
-accuracy of the map implementations and their core implementations. There is also a benchmark test `JmhRuntimeTest.java`,
-which has been designed to build JHUgle with different data files and profile its time and memory performance.
+Tests have been written in JUnit, and can be found can be found `src/test/java/hw8`. In particular, they verify the
+accuracy of the Sparse Graph implementation and its core operations. There are also several benchmark tests, which run
+the program for particular inputs and profile its time and memory performance.
+
+## Data
+
+All data has been provided by the City of Baltimore and the Johns Hopkins Department of Computer Science.
